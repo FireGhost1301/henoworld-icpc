@@ -3,7 +3,10 @@
  * Date: 2022-11-08
  * License: CC0
  * Source: Codeforces
- * Description: test
+ * Description: \texttt{find_by_order(int k)}: return an iterator
+ * to the k-th smallest element, counting from 0.
+ * \texttt{order_of_key(int k)}: return the number of
+ * items strictly smaller than k.
  * Time: O(\log N)
  */
 
