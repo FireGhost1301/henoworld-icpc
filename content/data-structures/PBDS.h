@@ -1,11 +1,12 @@
 /**
- * Author: Simon Lindholm
- * Date: 2016-03-22
+ * Author: FireGhost
+ * Date: 2022-11-08
  * License: CC0
- * Source: hacKIT, NWERC 2015
- * Description: A set (not multiset!) with support for finding the n'th
- * element, and finding the index of an element.
- * To get a map, change \texttt{null\_type}.
+ * Source: Codeforces
+ * Description: find_by_order(int k): return an iterator
+ * to the k-th smallest element, counting from 0.
+ * order_of_key(int k): return the number of
+ * items strictly smaller than k.
  * Time: O(\log N)
  */
 
