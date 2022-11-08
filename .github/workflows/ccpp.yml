@@ -18,3 +18,8 @@ jobs:
       run: sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
     - name: Build pdf
       run: make kactl
+    - name: Upload to Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: PDF
+        path: build/kactl.pdf
