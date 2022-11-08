@@ -1,28 +1,34 @@
 /**
- * Author: Simon Lindholm
+ * Author: FireGhost
  * License: CC0
- * Source: Codeforces
- * Description: Given $a[i] = \min_{lo(i) \le k < hi(i)}(f(i, k))$ where the (minimal) optimal $k$ increases with $i$, computes $a[i]$ for $i = L..R-1$.
- * Time: O((N + (hi-lo)) \log N)
- * Status: tested on http://codeforces.com/contest/321/problem/E
+ * Source: cp-algo
+ * Description: in code
  */
-#pragma once
 
-struct DP { // Modify at will:
-	int lo(int ind) { return 0; }
-	int hi(int ind) { return ind; }
-	ll f(int ind, int k) { return dp[ind][k]; }
-	void store(int ind, int k, ll v) { res[ind] = pii(k, v); }
-
-	void rec(int L, int R, int LO, int HI) {
-		if (L >= R) return;
-		int mid = (L + R) >> 1;
-		pair<ll, int> best(LLONG_MAX, LO);
-		rep(k, max(LO,lo(mid)), min(HI,hi(mid)))
-			best = min(best, make_pair(f(mid, k), k));
-		store(mid, best.second, best.first);
-		rec(L, mid, LO, best.second+1);
-		rec(mid+1, R, best.second, HI);
-	}
-	void solve(int L, int R) { rec(L, R, INT_MIN, INT_MAX); }
-};
+int dp_dac(int n, int k) {
+  // dp[i, j] = min(dp[i - 1, k] + C[k + 1, j])
+  vector<int> prv_dp(n + 1), cur_dp(n + 1);
+  function<int(int, int)> C = [&](int l, int r) {
+    // calc and return something
+    // must satisfies: C(a, d) + C(b, c) >= C(a, c) + C(b, d)
+    return 0;
+  };
+  function<void(int, int, int, int)> calc = [&](int l, int r, int pl, int pr) {
+    if (l > r) return;
+    int mid = (l + r) >> 1;
+    pair<int, int> best = {INT_MAX, -1};
+    for (int k = pl; k <= min(mid, pr); ++k)
+      best = min(best, {prv_dp[k - 1] + C(k, mid), k});
+    cur_dp[mid] = best.first;
+    int p = best.second;
+    calc(l, mid - 1, pl, p);
+    calc(mid + 1, r, p, pr);
+  };
+  for (int i = 1; i <= n; ++i)
+    prv_dp[i] = 0; // calc first layer of dp
+  for (int i = 2; i <= k; ++i) {
+    calc(1, n, 1, n);
+    swap(prv_dp, cur_dp);
+  }
+  return prv_dp[n];
+}
